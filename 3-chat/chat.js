@@ -1,22 +1,14 @@
-// HTTP instead of express
-const http = require("http");
+const express = require("express");
+const app = express();
 const socketio = require("socket.io");
 
-// Set HTTP server
-const server = http.createServer((req, res) => {
-  res.end("I am connected!");
-});
+app.use(express.static(__dirname + "/public"));
 
-const io = socketio(server);
-
-io.on("connection", (socket, req) => {
-  // send() becomes emit() with Socket.io
-  socket.emit("welcome", "Welcome to the websocket server");
-
-  // No change here
-  socket.on("message", msg => {
-    console.log({ msg });
+const expressServer = app.listen(8000);
+const io = socketio(expressServer);
+io.on("connection", socket => {
+  socket.emit("messageFromServer", { data: "Welcome to the socketio server" });
+  socket.on("messageToServer", dataFromClient => {
+    console.log({ dataFromClient });
   });
 });
-
-server.listen(8000);
