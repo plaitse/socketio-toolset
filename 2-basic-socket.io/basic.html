@@ -1,0 +1,19 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+Test
+<script>
+  // Connection to HTTP instead of a web socket
+  const socket = io("http://localhost:8000");
+  console.log({ socket });
+
+  // onopen() becomes on('connect') with Socket.io
+  socket.on("connect", data => {
+    // onmessage() becomes on('welcome')
+    socket.on("welcome", message => {
+      console.log({ message });
+    });
+    // send() becomes emit()
+    socket.emit("message", {
+      data: "Thanks for allowing me to connect"
+    });
+  });
+</script>

@@ -1,0 +1,16 @@
+Test
+<script>
+  // WebSocket API allows us to connect to a network socket, switch protocols, accept and send data
+
+  // Connection with a native web socket using the WebSocket API
+  let ws = new WebSocket("ws://localhost:8000");
+  console.log({ ws });
+
+  ws.onmessage = event => {
+    console.log({ event });
+  };
+
+  ws.onopen = event => {
+    ws.send("Thanks for allowing me to connect");
+  };
+</script>
